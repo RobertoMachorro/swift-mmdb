@@ -47,3 +47,22 @@ public class GeoLite2CountryDatabase : MMDB {
         }
     }
 }
+
+/// Provide access to a GeoLite2-City.mmdb database file. The file is read on instantiation
+/// and kept in memory for as long as the instance persists.
+///
+/// It is expected that a server will create one of these at startup, and then perhaps replace it
+/// with a new one from time to time to get updates.  The underlying data files from MaxMind
+/// only update once a week for the free developer files.
+///
+/// Note: You can use the MMDB .search methods to get the entire value record for an
+/// address.
+///
+public class GeoLite2CityDatabase : MMDB {
+    override public init?( data: Data) {
+        super.init(data: data)
+
+        // check that we really the right database type
+        if databaseType != "GeoLite2-City" { return nil }
+    }
+}
